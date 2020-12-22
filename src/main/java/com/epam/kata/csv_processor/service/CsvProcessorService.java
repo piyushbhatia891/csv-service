@@ -9,10 +9,9 @@ import com.epam.kata.csv_processor.models.CsvFileObject;
 
 public interface CsvProcessorService {
 
-	List<CsvFileObject> loadCsvFile(CsvClientFileRequest file) throws FileNotFoundException;
+	List<CsvFileObject> loadCsvFile(CsvFileLoadStrategy strategy,CsvClientFileRequest file) throws FileNotFoundException;
 
-	boolean verifyColumnNamesHavingNullOrEmptyValues(CsvClientFileRequest csvFile) throws FileNotFoundException;
-	boolean deleteRowByName(CsvClientFileRequest csvFile) throws FileNotFoundException;
-
-	boolean saveListInAFile(List<CsvFileObject> list) throws FileNotFoundException;
+	boolean verifyColumnNamesHavingNullOrEmptyValues(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException;
+	boolean deleteRowByName(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException;
+	List<CsvFileObject> sortCsvFileData(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException;
 }

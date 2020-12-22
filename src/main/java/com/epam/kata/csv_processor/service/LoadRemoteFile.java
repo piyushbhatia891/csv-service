@@ -9,28 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.epam.kata.csv_processor.models.CsvClientFileRequest;
 import com.epam.kata.csv_processor.models.CsvFileObject;
 import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
 
-public class LoadRemoteFile implements CsvFileLoadStrategy {
+public class LoadRemoteFile extends CsvFileLoadStrategy {
 
 	Map<String, String> mapping = new HashMap<String, String>();
-	HeaderColumnNameTranslateMappingStrategy strategy = null;
-
-	public List<CsvFileObject> loadFile(String path) throws IOException {
-		URL urlCSV = new URL(path);
-		URLConnection urlConn = urlCSV.openConnection();
-
-		// ...
-		InputStreamReader inputCSV = new InputStreamReader(((URLConnection) urlConn).getInputStream());
-		// ...
-		BufferedReader br = new BufferedReader(inputCSV);
-		return null;
-
-	}
+	HeaderColumnNameTranslateMappingStrategy<CsvFileObject> strategy = null;
 
 	private void setHeaderMappingStrategy() {
-		strategy = new HeaderColumnNameTranslateMappingStrategy();
+		strategy = new HeaderColumnNameTranslateMappingStrategy<CsvFileObject>();
 		strategy.setType(CsvFileObject.class);
 		strategy.setColumnMapping(mapping);
 	}
@@ -40,6 +29,19 @@ public class LoadRemoteFile implements CsvFileLoadStrategy {
 		mapping.put("Name", "name");
 		mapping.put("Age", "age");
 		mapping.put("BMI", "bmi");
+	}
+
+	@Override
+	public List<CsvFileObject> loadFile(CsvClientFileRequest request) throws IOException {
+		URL urlCSV = new URL(request.getFileUrl());
+		URLConnection urlConn = urlCSV.openConnection();
+
+		// ...
+		InputStreamReader inputCSV = new InputStreamReader(((URLConnection) urlConn).getInputStream());
+		// ...
+		BufferedReader br = new BufferedReader(inputCSV);
+		return null;
+
 	}
 
 }

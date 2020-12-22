@@ -4,27 +4,35 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.epam.kata.csv_processor.models.CsvClientFileRequest;
 import com.epam.kata.csv_processor.models.CsvFileObject;
+import com.epam.kata.csv_processor.service.CsvFileLoadStrategy;
 import com.epam.kata.csv_processor.service.CsvProcessorService;
+import com.epam.kata.csv_processor.service.CsvProcessorServiceImpl;
 
 public class CsvProcessorClient {
 
-	@Autowired
 	private CsvProcessorService csvProcessorService;
+	public CsvProcessorClient() {
+		this.csvProcessorService=new CsvProcessorServiceImpl();
+	}
 
-	public List<CsvFileObject> loadCsvFile(CsvClientFileRequest csvFile) throws FileNotFoundException {
-		return csvProcessorService.loadCsvFile(csvFile);
+	public List<CsvFileObject> loadCsvFile(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException {
+		return csvProcessorService.loadCsvFile(strategy,csvFile);
 	}
 	
-	public boolean getColumnNamesHavingNullOrEmptyValues(CsvClientFileRequest csvFile) throws FileNotFoundException{
-		return csvProcessorService.verifyColumnNamesHavingNullOrEmptyValues(csvFile);
+	public boolean getColumnNamesHavingNullOrEmptyValues(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException{
+		return csvProcessorService.verifyColumnNamesHavingNullOrEmptyValues(strategy,csvFile);
 	}
 	
-	public boolean deleteRowByName(CsvClientFileRequest csvFile) throws FileNotFoundException{
-		return csvProcessorService.deleteRowByName(csvFile);
+	public boolean deleteRowByName(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws IOException {
+		return csvProcessorService.deleteRowByName(strategy,csvFile);
 	}
+	
+	public List<CsvFileObject> sortCsvFileContent(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws IOException {
+		return csvProcessorService.sortCsvFileData(strategy,csvFile);
+	}
+	
+	
 
 }

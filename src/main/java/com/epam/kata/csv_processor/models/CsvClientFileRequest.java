@@ -1,26 +1,22 @@
 package com.epam.kata.csv_processor.models;
 
+import java.util.List;
+
 import org.springframework.lang.NonNull;
 
 public class CsvClientFileRequest {
 	
 	private String fileUrl;
 	private boolean isLocal;
-	private String separation;
-	private String name;
+	private List<CsvFileObject> csvObjects;
 	
 	
-	public String getName() {
-		return name;
+	
+	public List<CsvFileObject> getCsvObjects() {
+		return csvObjects;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSeparation() {
-		return separation;
-	}
-	public void setSeparation(String separation) {
-		this.separation = separation;
+	public void setCsvObjects(List<CsvFileObject> csvObjects) {
+		this.csvObjects = csvObjects;
 	}
 	public String getFileUrl() {
 		return fileUrl;
