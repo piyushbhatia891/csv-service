@@ -12,8 +12,7 @@ public interface CsvProcessorService {
 	List<CsvFileObject> loadCsvFile(CsvClientFileRequest file) throws FileNotFoundException;
 
 	boolean verifyColumnNamesHavingNullOrEmptyValues(CsvClientFileRequest csvFile) throws FileNotFoundException;
+	boolean deleteRowByName(CsvClientFileRequest csvFile) throws FileNotFoundException;
 
-	List<CsvFileObject> loadFileAndSort(CsvClientFileRequest csvFile);
-	
 	boolean saveListInAFile(List<CsvFileObject> list) throws FileNotFoundException;
 }

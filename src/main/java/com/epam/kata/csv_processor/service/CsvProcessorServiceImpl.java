@@ -41,16 +41,6 @@ public class CsvProcessorServiceImpl implements CsvProcessorService {
 		}
 	}
 
-	public List<CsvFileObject> loadFileAndSort(CsvClientFileRequest csvFile) {
-		try {
-			List<CsvFileObject> list = processFile(csvFile);
-			return csvSortOperationImpl.sortCSVListObject(list);
-		} catch (Exception e) {
-			return new ArrayList<CsvFileObject>();
-		}
-	}
-	
-
 	@Override
 	public boolean saveListInAFile(List<CsvFileObject> list) throws FileNotFoundException {
 		try {
@@ -68,13 +58,13 @@ public class CsvProcessorServiceImpl implements CsvProcessorService {
 	}
 
 	private void getCsvFileLoadingStrategy(CsvClientFileRequest file) {
-		String isLocalFileLoadingStartegy = String.valueOf(file.isLocal());
-		switch (isLocalFileLoadingStartegy) {
-		case "true":
-			csvFileLoadStrategy = new LoadLocalFile();
+		String separationStrategy = file.getSeparation();
+		switch (separationStrategy) {
+		case "comma":
+			csvFileLoadStrategy = new CommaSeparatedCSVFileLoadSeparation(new LoadLocalFile()); 
 			break;
-		default:
-			csvFileLoadStrategy = new LoadRemoteFile();
+		case "space":
+			csvFileLoadStrategy = new ColonSeparatedCSVFileLoadSeparation(new LoadRemoteFile());
 			break;
 		}
 
@@ -84,5 +74,16 @@ public class CsvProcessorServiceImpl implements CsvProcessorService {
 		return csvFileLoadStrategy.loadFile(file.getFileUrl());
 
 	}
+
+	@Override
+	public boolean deleteRowByName(CsvClientFileRequest csvFile) throws FileNotFoundException {
+		try {
+			List<CsvFileObject> list= processFile(csvFile);
+			return list.removeIf(csvObject->csvObject.getName().equals(csvFile.getName()));
+		} catch (IOException e) {
+			throw new FileNotFoundException(e.getMessage());
+		}
+	}
+
 
 }

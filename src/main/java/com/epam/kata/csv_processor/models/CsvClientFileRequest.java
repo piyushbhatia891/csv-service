@@ -6,6 +6,22 @@ public class CsvClientFileRequest {
 	
 	private String fileUrl;
 	private boolean isLocal;
+	private String separation;
+	private String name;
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSeparation() {
+		return separation;
+	}
+	public void setSeparation(String separation) {
+		this.separation = separation;
+	}
 	public String getFileUrl() {
 		return fileUrl;
 	}

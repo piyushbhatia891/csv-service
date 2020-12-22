@@ -22,5 +22,9 @@ public class CsvProcessorClient {
 	public boolean getColumnNamesHavingNullOrEmptyValues(CsvClientFileRequest csvFile) throws FileNotFoundException{
 		return csvProcessorService.verifyColumnNamesHavingNullOrEmptyValues(csvFile);
 	}
+	
+	public boolean deleteRowByName(CsvClientFileRequest csvFile) throws FileNotFoundException{
+		return csvProcessorService.deleteRowByName(csvFile);
+	}
 
 }
