@@ -1,0 +1,11 @@
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\service\LoadLocalFile.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\service\CsvFileLoadStrategy.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\service\CsvProcessorServiceImpl.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\CsvProcessorConfiguration.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\models\CsvFileObject.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\service\CsvSortOperationImpl.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\service\CsvCustomOperation.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\service\CsvProcessorService.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\client\CsvProcessorClient.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\service\LoadRemoteFile.java
+C:\Users\piyush\practice\csv-processor\src\main\java\com\epam\kata\csv_processor\models\CsvClientFileRequest.java
