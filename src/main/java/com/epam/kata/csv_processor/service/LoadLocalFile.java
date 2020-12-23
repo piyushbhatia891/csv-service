@@ -25,18 +25,24 @@ public class LoadLocalFile extends CsvFileLoadStrategy {
 	@SuppressWarnings("deprecation")
 	public List<CsvFileObject> loadFile(CsvClientFileRequest request) throws IOException {
 		List<CsvFileObject> list = new ArrayList<CsvFileObject>();
+		Reader reader = null;
 		if (CachingServiceImpl.getCsvDataForAurl(request.getFileUrl()) == null) {
-			Reader reader = Files.newBufferedReader(Paths.get(request.getFileUrl()));
-			CsvToBean<CsvFileObject> csvToBean = new CsvToBeanBuilder<CsvFileObject>(reader)
-					.withType(CsvFileObject.class).withSkipLines(0)
-					.withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_QUOTES).withSeparator('|').build();
-			Iterator<CsvFileObject> csvUserIterator = csvToBean.iterator();
-			while (csvUserIterator.hasNext()) {
-				CsvFileObject csvFileObject = csvUserIterator.next();
-				list.add(new CsvFileObject(csvFileObject.getName(), csvFileObject.getAge(), csvFileObject.getBmi()));
-			}
-			CachingServiceImpl.fileCache.put(request.getFileUrl(), list);
+			try {
+				reader = Files.newBufferedReader(Paths.get(request.getFileUrl()));
+				CsvToBean<CsvFileObject> csvToBean = new CsvToBeanBuilder<CsvFileObject>(reader)
+						.withType(CsvFileObject.class).withSkipLines(0)
+						.withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_QUOTES).withSeparator('|').build();
+				Iterator<CsvFileObject> csvUserIterator = csvToBean.iterator();
+				while (csvUserIterator.hasNext()) {
+					CsvFileObject csvFileObject = csvUserIterator.next();
+					list.add(
+							new CsvFileObject(csvFileObject.getName(), csvFileObject.getAge(), csvFileObject.getBmi()));
+				}
+				CachingServiceImpl.fileCache.put(request.getFileUrl(), list);
 
+			} finally {
+				reader.close();
+			}
 		} else {
 			list = CachingServiceImpl.getCsvDataForAurl(request.getFileUrl());
 
