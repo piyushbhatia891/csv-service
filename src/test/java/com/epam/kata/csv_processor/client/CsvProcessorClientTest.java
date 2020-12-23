@@ -65,7 +65,7 @@ public class CsvProcessorClientTest {
 	}
 	
 	@Test
-	public void deletRowByNameAndGetEntity() throws FileNotFoundException {
+	public void deletRowByNameAndGetEntity() throws FileNotFoundException, CloneNotSupportedException {
 		csvClientFileRequest.setCsvObjects(csvFileObjects);
 		List<CsvFileObject> list=client.deleteRowByNameAndGetRemainingEntity(csvFileLoadStrategy,  csvClientFileRequest);
 		assertThat(0, is(list.size()));

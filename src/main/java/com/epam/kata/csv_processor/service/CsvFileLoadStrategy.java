@@ -1,6 +1,5 @@
 package com.epam.kata.csv_processor.service;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 

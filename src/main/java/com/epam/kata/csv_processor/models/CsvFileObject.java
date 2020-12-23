@@ -2,7 +2,7 @@ package com.epam.kata.csv_processor.models;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CsvFileObject {
+public class CsvFileObject implements Cloneable {
 	@CsvBindByName(column = "Name")
 	private String name;
 	@CsvBindByName(column = "Age")
@@ -18,7 +18,19 @@ public class CsvFileObject {
 		this.bmi = bmi;
 	}
 	
-	
+	 @Override
+	public Object clone() throws CloneNotSupportedException {
+		 CsvFileObject clone = null;
+	        try
+	        {
+	            clone = (CsvFileObject) super.clone();
+	        } 
+	        catch (CloneNotSupportedException e) 
+	        {
+	            throw new RuntimeException(e);
+	        }
+	        return clone;
+	    }
 
 	public CsvFileObject() {
 		

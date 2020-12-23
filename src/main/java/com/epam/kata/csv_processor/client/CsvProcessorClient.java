@@ -21,16 +21,20 @@ public class CsvProcessorClient {
 		return csvProcessorService.loadCsvFile(strategy,csvFile);
 	}
 	
-	public List<String> getColumnNamesHavingNullOrEmptyValues(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException{
+	public List<String> getColumnNamesHavingNullOrEmptyValues(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException, CloneNotSupportedException{
 		return csvProcessorService.getColumnNamesHavingNullOrEmptyValues(strategy,csvFile);
 	}
 	
-	public List<CsvFileObject> deleteRowByNameAndGetRemainingEntity(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile)throws FileNotFoundException {
+	public List<CsvFileObject> deleteRowByNameAndGetRemainingEntity(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile)throws FileNotFoundException, CloneNotSupportedException {
 		return csvProcessorService.deleteRowByName(strategy,csvFile);
 	}
 	
 	public List<CsvFileObject> sortCsvFileContent(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile)throws FileNotFoundException {
 		return csvProcessorService.sortCsvFileData(strategy,csvFile);
+	}
+	
+	public List<CsvFileObject> getClonedCopy(List<CsvFileObject> list) throws CloneNotSupportedException{
+		return csvProcessorService.getClonedList(list);
 	}
 	
 	
