@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.epam.kata.csv_processor.models.CsvClientFileRequest;
 import com.epam.kata.csv_processor.models.CsvFileObject;
+import com.epam.kata.csv_processor.service.CachingServiceImpl;
 import com.epam.kata.csv_processor.service.CsvCustomOperation;
 import com.epam.kata.csv_processor.service.CsvProcessorService;
 import com.epam.kata.csv_processor.service.CsvSortOperationImpl;
@@ -29,53 +31,50 @@ public class CsvProcessorClientTest {
 	LoadLocalFile csvFileLoadStrategy;
 	CsvCustomOperation csvCustomOperation;
 	CsvClientFileRequest csvClientFileRequest;
-	List<CsvFileObject> csvFileObjects;
+	List<String> csvFileObjects=new ArrayList();
 	
 	@Before
 	public void setSup() {
 		MockitoAnnotations.initMocks(this);
 		csvClientFileRequest=new CsvClientFileRequest();
-		csvClientFileRequest.setFileUrl("test");
-		csvClientFileRequest.setCsvObjects(new ArrayList<CsvFileObject>());
-		CsvFileObject csvFileObject=new CsvFileObject();
-		csvFileObject.setName("Piyush");
-		csvFileObject.setBmi(12);
-		csvFileObject.setAge(11);
-		csvFileObjects.add(csvFileObject);
+		csvClientFileRequest.setFileUrl("D:\\files\\diabetes.csv");
+		csvFileObjects.add("Name");
 		client=new CsvProcessorClient();
 		csvCustomOperation=new CsvSortOperationImpl();
 		csvFileLoadStrategy=new LoadLocalFile();
-		csvFileLoadStrategy.setCustomOperation(csvCustomOperation);
+		csvFileLoadStrategy.setCustomOperation(null);
 		csvFileLoadStrategy.setSeparation(",");
+	}
+	
+	@After
+	public void clear() {
+		//CachingServiceImpl
+		//TODO- clear the data from cache
 	}
 
 	@Test
 	public void loadData() throws FileNotFoundException {
-		when(client.loadCsvFile(csvFileLoadStrategy, csvClientFileRequest)).thenReturn(new ArrayList<CsvFileObject>());
 		List<CsvFileObject> list=client.loadCsvFile(csvFileLoadStrategy, csvClientFileRequest);
-		assertThat(1, is(list.size()));
+		assertThat(768, is(list.size()));
 	}
 	
 	@Test(expected = FileNotFoundException.class)
 	public void loadDataForInvalidFile() throws FileNotFoundException {
-		when(client.loadCsvFile(csvFileLoadStrategy, csvClientFileRequest)).thenReturn(new ArrayList<CsvFileObject>());
-		List<CsvFileObject> list=client.loadCsvFile(csvFileLoadStrategy, csvClientFileRequest);
-		assertThat(1, is(list.size()));
+		csvClientFileRequest.setFileUrl("");
+		client.loadCsvFile(csvFileLoadStrategy, csvClientFileRequest);
 	}
 	
 	@Test
 	public void deletRowByNameAndGetEntity() throws FileNotFoundException {
 		csvClientFileRequest.setCsvObjects(csvFileObjects);
-		when(client.deleteRowByNameAndGetRemainingEntity(csvFileLoadStrategy,  csvClientFileRequest)).thenReturn(new ArrayList<CsvFileObject>());
 		List<CsvFileObject> list=client.deleteRowByNameAndGetRemainingEntity(csvFileLoadStrategy,  csvClientFileRequest);
-		assertThat(1, is(list.size()));
+		assertThat(0, is(list.size()));
 	}
 	
 	@Test
 	public void sortCsvFileContentByName() throws FileNotFoundException {
 		csvClientFileRequest.setCsvObjects(csvFileObjects);
-		when(client.sortCsvFileContent(csvFileLoadStrategy,  csvClientFileRequest)).thenReturn(new ArrayList<CsvFileObject>());
 		List<CsvFileObject> list=client.sortCsvFileContent(csvFileLoadStrategy,  csvClientFileRequest);
-		assertThat(1, is(list.size()));
+		assertThat(768, is(list.size()));
 	}
 }

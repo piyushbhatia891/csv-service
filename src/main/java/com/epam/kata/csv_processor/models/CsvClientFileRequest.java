@@ -6,14 +6,22 @@ public class CsvClientFileRequest {
 	
 	private String fileUrl;
 	private boolean isLocal;
-	private List<CsvFileObject> csvObjects;
+	private List<String> csvObjects;
+	private String separator;
 	
 	
 	
-	public List<CsvFileObject> getCsvObjects() {
+	
+	public String getSeparator() {
+		return separator;
+	}
+	public void setSeparator(String separator) {
+		this.separator = separator;
+	}
+	public List<String> getCsvObjects() {
 		return csvObjects;
 	}
-	public void setCsvObjects(List<CsvFileObject> csvObjects) {
+	public void setCsvObjects(List<String> csvObjects) {
 		this.csvObjects = csvObjects;
 	}
 	public String getFileUrl() {

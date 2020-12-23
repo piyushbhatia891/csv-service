@@ -1,58 +1,62 @@
 package com.epam.kata.csv_processor.service;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.epam.kata.csv_processor.models.CsvClientFileRequest;
 import com.epam.kata.csv_processor.models.CsvFileObject;
-import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.enums.CSVReaderNullFieldIndicator;
 
 public class LoadLocalFile extends CsvFileLoadStrategy {
 	Map<String, String> mapping = new HashMap<String, String>();
-	HeaderColumnNameTranslateMappingStrategy<CsvFileObject> strategy = null;
 	private String separation;
 	private List<String> columnNamesToBeDeleted;
 	private CsvCustomOperation customOperation;
 
-	public List<CsvFileObject> loadFile(CsvClientFileRequest request) throws FileNotFoundException {
-		List<CsvFileObject> list;
+	@SuppressWarnings("deprecation")
+	public List<CsvFileObject> loadFile(CsvClientFileRequest request) throws IOException {
+		List<CsvFileObject> list = new ArrayList<CsvFileObject>();
 		if (CachingServiceImpl.getCsvDataForAurl(request.getFileUrl()) == null) {
-			createMappingsForCSVObject();
-			setHeaderMappingStrategy();
-			CSVReader csvReader = null;
-			csvReader = new CSVReader(new FileReader(request.getFileUrl()));
-						CsvToBean csvToBean = new CsvToBean();
-			 list= csvToBean.parse(strategy, csvReader);
+			Reader reader = Files.newBufferedReader(Paths.get(request.getFileUrl()));
+			CsvToBean<CsvFileObject> csvToBean = new CsvToBeanBuilder<CsvFileObject>(reader)
+					.withType(CsvFileObject.class).withSkipLines(0)
+					.withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_QUOTES).withSeparator('|').build();
+			Iterator<CsvFileObject> csvUserIterator = csvToBean.iterator();
+			while (csvUserIterator.hasNext()) {
+				CsvFileObject csvFileObject = csvUserIterator.next();
+				list.add(new CsvFileObject(csvFileObject.getName(), csvFileObject.getAge(), csvFileObject.getBmi()));
+			}
 			CachingServiceImpl.fileCache.put(request.getFileUrl(), list);
-			
+
 		} else {
 			list = CachingServiceImpl.getCsvDataForAurl(request.getFileUrl());
-			
+
 		}
-		if(getCustomOperation()!=null)
+		if (getCustomOperation() != null)
 			getCustomOperation().sortCSVListObject(list);
 		return list;
 
 	}
 
-	private void setHeaderMappingStrategy() {
-		strategy = new HeaderColumnNameTranslateMappingStrategy<CsvFileObject>();
-		strategy.setType(CsvFileObject.class);
-		strategy.setColumnMapping(mapping);
-	}
-
-	private void createMappingsForCSVObject() {
-
-		mapping.put("Name", "name");
-		mapping.put("Age", "age");
-		mapping.put("BMI", "bmi");
-	}
-
+	/*
+	 * private void setHeaderMappingStrategy() { strategy = new
+	 * HeaderColumnNameTranslateMappingStrategy<CsvFileObject>();
+	 * strategy.setType(CsvFileObject.class); strategy.setColumnMapping(mapping); }
+	 * 
+	 * private void createMappingsForCSVObject() {
+	 * 
+	 * mapping.put("Name", "name"); mapping.put("Age", "age"); mapping.put("BMI",
+	 * "bmi"); }
+	 */
 	public String getSeparation() {
 		return separation;
 	}

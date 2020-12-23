@@ -21,8 +21,8 @@ public class CsvProcessorClient {
 		return csvProcessorService.loadCsvFile(strategy,csvFile);
 	}
 	
-	public boolean getColumnNamesHavingNullOrEmptyValues(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException{
-		return csvProcessorService.verifyColumnNamesHavingNullOrEmptyValues(strategy,csvFile);
+	public List<String> getColumnNamesHavingNullOrEmptyValues(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException{
+		return csvProcessorService.getColumnNamesHavingNullOrEmptyValues(strategy,csvFile);
 	}
 	
 	public List<CsvFileObject> deleteRowByNameAndGetRemainingEntity(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile)throws FileNotFoundException {

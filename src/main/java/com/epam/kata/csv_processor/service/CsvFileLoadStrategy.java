@@ -9,6 +9,6 @@ import com.epam.kata.csv_processor.models.CsvFileObject;
 
 public abstract class CsvFileLoadStrategy {
 	
-	abstract List<CsvFileObject> loadFile(CsvClientFileRequest request)  throws FileNotFoundException;
+	abstract List<CsvFileObject> loadFile(CsvClientFileRequest request) throws IOException;
 
 }
