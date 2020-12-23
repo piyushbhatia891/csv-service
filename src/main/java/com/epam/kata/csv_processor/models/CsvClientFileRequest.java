@@ -5,37 +5,41 @@ import java.util.List;
 public class CsvClientFileRequest {
 	
 	private String fileUrl;
-	private boolean isLocal;
-	private List<String> csvObjects;
-	private String separator;
+	private List<String> columnNames;
 	
-	
-	
-	
-	public String getSeparator() {
-		return separator;
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
 	}
-	public void setSeparator(String separator) {
-		this.separator = separator;
+	public void setColumnNames(List<String> columnNames) {
+		this.columnNames = columnNames;
 	}
+	public CsvClientFileRequest(CsvClientFileRequestBuilder csvClientFileRequestBuilder) {
+		this.fileUrl=csvClientFileRequestBuilder.fileUrl;
+		this.columnNames=csvClientFileRequestBuilder.columnNames;
+	}
+	public static class CsvClientFileRequestBuilder{
+		private String fileUrl;
+		private List<String> columnNames;
+		public CsvClientFileRequestBuilder(String fileUrl) {
+			this.fileUrl=fileUrl;
+		}
+		
+		public CsvClientFileRequestBuilder withColumnNames(List<String> columnNames) {
+			this.columnNames=columnNames;
+			return this;
+		}
+		
+		public CsvClientFileRequest build() {
+			return new CsvClientFileRequest(this);
+		}
+		
+	}
+	
 	public List<String> getCsvObjects() {
-		return csvObjects;
-	}
-	public void setCsvObjects(List<String> csvObjects) {
-		this.csvObjects = csvObjects;
+		return columnNames;
 	}
 	public String getFileUrl() {
 		return fileUrl;
 	}
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
-	}
-	public boolean isLocal() {
-		return isLocal;
-	}
-	public void setLocal(boolean isLocal) {
-		this.isLocal = isLocal;
-	}
 	
-
 }
