@@ -12,6 +12,6 @@ public interface CsvProcessorService {
 	List<CsvFileObject> loadCsvFile(CsvFileLoadStrategy strategy,CsvClientFileRequest file) throws FileNotFoundException;
 
 	boolean verifyColumnNamesHavingNullOrEmptyValues(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException;
-	boolean deleteRowByName(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException;
+	List<CsvFileObject> deleteRowByName(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException;
 	List<CsvFileObject> sortCsvFileData(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException;
 }

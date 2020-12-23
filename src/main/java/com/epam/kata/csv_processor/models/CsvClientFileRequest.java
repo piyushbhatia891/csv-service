@@ -2,8 +2,6 @@ package com.epam.kata.csv_processor.models;
 
 import java.util.List;
 
-import org.springframework.lang.NonNull;
-
 public class CsvClientFileRequest {
 	
 	private String fileUrl;

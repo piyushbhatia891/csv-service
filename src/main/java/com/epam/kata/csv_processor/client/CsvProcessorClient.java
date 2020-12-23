@@ -17,7 +17,7 @@ public class CsvProcessorClient {
 		this.csvProcessorService=new CsvProcessorServiceImpl();
 	}
 
-	public List<CsvFileObject> loadCsvFile(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException {
+	public List<CsvFileObject> loadCsvFile(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException{
 		return csvProcessorService.loadCsvFile(strategy,csvFile);
 	}
 	
@@ -25,11 +25,11 @@ public class CsvProcessorClient {
 		return csvProcessorService.verifyColumnNamesHavingNullOrEmptyValues(strategy,csvFile);
 	}
 	
-	public boolean deleteRowByName(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws IOException {
+	public List<CsvFileObject> deleteRowByNameAndGetRemainingEntity(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile)throws FileNotFoundException {
 		return csvProcessorService.deleteRowByName(strategy,csvFile);
 	}
 	
-	public List<CsvFileObject> sortCsvFileContent(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws IOException {
+	public List<CsvFileObject> sortCsvFileContent(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile)throws FileNotFoundException {
 		return csvProcessorService.sortCsvFileData(strategy,csvFile);
 	}
 	

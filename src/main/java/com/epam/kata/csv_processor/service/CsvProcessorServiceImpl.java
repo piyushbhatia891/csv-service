@@ -9,7 +9,7 @@ import com.epam.kata.csv_processor.models.CsvFileObject;
 
 public class CsvProcessorServiceImpl implements CsvProcessorService {
 
-	public List<CsvFileObject> loadCsvFile(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException {
+	public List<CsvFileObject> loadCsvFile(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException{
 		try {
 			return strategy.loadFile(csvFile);
 		} catch (IOException e) {
@@ -32,10 +32,11 @@ public class CsvProcessorServiceImpl implements CsvProcessorService {
 	}
 
 	@Override
-	public boolean deleteRowByName(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException {
+	public List<CsvFileObject> deleteRowByName(CsvFileLoadStrategy strategy,CsvClientFileRequest csvFile) throws FileNotFoundException {
 		try {
 			List<CsvFileObject> list= strategy.loadFile(csvFile);
-			return list.removeAll(csvFile.getCsvObjects());
+			list.removeAll(csvFile.getCsvObjects());
+			return list;
 		} catch (IOException e) {
 			throw new FileNotFoundException(e.getMessage());
 		}

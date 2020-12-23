@@ -19,19 +19,14 @@ public class LoadLocalFile extends CsvFileLoadStrategy {
 	private List<String> columnNamesToBeDeleted;
 	private CsvCustomOperation customOperation;
 
-	public List<CsvFileObject> loadFile(CsvClientFileRequest request) {
+	public List<CsvFileObject> loadFile(CsvClientFileRequest request) throws FileNotFoundException {
 		List<CsvFileObject> list;
 		if (CachingServiceImpl.getCsvDataForAurl(request.getFileUrl()) == null) {
 			createMappingsForCSVObject();
 			setHeaderMappingStrategy();
 			CSVReader csvReader = null;
-			try {
-				csvReader = new CSVReader(new FileReader(request.getFileUrl()));
-			} catch (FileNotFoundException e) {
-
-				e.printStackTrace();
-			}
-			CsvToBean csvToBean = new CsvToBean();
+			csvReader = new CSVReader(new FileReader(request.getFileUrl()));
+						CsvToBean csvToBean = new CsvToBean();
 			 list= csvToBean.parse(strategy, csvReader);
 			CachingServiceImpl.fileCache.put(request.getFileUrl(), list);
 			
